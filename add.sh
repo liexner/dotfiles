@@ -2,20 +2,23 @@
 
 set -e
 
-REPO_BASE="https://raw.githubusercontent.com/liexner/dotfiles/main"
-FILES=(aliases.sh exports.sh)  # Add any other file names here
+REPO_URL="https://raw.githubusercontent.com/liexner/dotfiles/main/files"
+FILES=(
+  aliases.sh
+)
+
 TARGET_DIR="$HOME/.dotfiles"
 BASHRC="$HOME/.bashrc"
 
 echo "📁 Creating $TARGET_DIR..."
 mkdir -p "$TARGET_DIR"
 
-echo "⬇️ Downloading dotfiles..."
+echo "⬇️ Downloading files into $TARGET_DIR..."
 for file in "${FILES[@]}"; do
-    curl -fsSL "$REPO_BASE/$file" -o "$TARGET_DIR/$file"
+    echo "  - $file"
+    curl -fsSL "$REPO_URL/$file" -o "$TARGET_DIR/$file"
 done
 
-# Add to bashrc if not already there
 SOURCE_BLOCK="
 # >>> dotfiles setup >>>
 for file in \$HOME/.dotfiles/*.sh; do
@@ -34,4 +37,4 @@ fi
 echo "🔁 Sourcing $BASHRC..."
 source "$BASHRC"
 
-echo "✅ Dotfiles downloaded and active!"
+echo "✅ Dotfiles installed and active."
